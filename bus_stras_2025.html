@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>رزرو صندلی اتوبوس</title>
+<style>
+body { font-family: 'Tahoma', sans-serif; background: #f0f0f5; margin: 0; padding: 20px; text-align: center; }
+h1, h2 { color: #333; }
+.bus { display: inline-block; background: #fff; padding: 20px; margin: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.row { display: flex; justify-content: center; margin: 5px 0; }
+.seat { width: 80px; height: 80px; margin: 3px; border-radius: 8px; line-height: 1.2; color: #fff; font-weight: bold; cursor: pointer; transition: transform 0.2s; user-select: none; font-size: 12px; word-wrap: break-word; display: flex; align-items: center; justify-content: center; text-align: center; }
+.seat.red { background-color: #e74c3c; }
+.seat.green { background-color: #27ae60; }
+.seat.empty { background-color: #bdc3c7; color: #333; }
+.seat.large { width: 180px; height: 80px; background-color: #95a5a6; display:flex; align-items:center; justify-content:center; font-weight:bold; }
+.seat:hover { transform: scale(1.1); }
+.aisle { width: 20px; }
+.responsible { width: 100px; height: 100px; font-size: 14px; border: 3px solid gold; border-radius: 12px; background-color: #f39c12; }
+</style>
+</head>
+<body>
+
+<h1>رزرو صندلی اتوبوس</h1>
+
+<!-- اتوبوس شماره 1 -->
+<div class="bus">
+<h2>اتوبوس ۱</h2>
+<!-- ردیف 1 تا 5 -->
+<div class="row"><div class="seat red">[1. ]</div><div class="seat red">[2. شادی]</div><div class="aisle"></div><div class="seat red">[3. النا]</div><div class="seat red">[4. زهره]</div></div>
+<div class="row"><div class="seat red">[5. فرشته]</div><div class="seat red">[6. دنیا]</div><div class="aisle"></div><div class="seat red">[7. مهرو]</div><div class="seat red">[8. مهدیس]</div></div>
+<div class="row"><div class="seat red">[9. حدیث]</div><div class="seat red">[10. فائزه]</div><div class="aisle"></div><div class="seat red">[11. مهشاد]</div><div class="seat red">[12. آترین]</div></div>
+<div class="row"><div class="seat red">[13. وستا]</div><div class="seat red">[14. احسان]</div><div class="aisle"></div><div class="seat red">[15. فاطمه]</div><div class="seat red">[16. پویا]</div></div>
+<div class="row"><div class="seat red">[17. احسان]</div><div class="seat red">[18. المیرا]</div><div class="aisle"></div><div class="seat red">[19. آرش]</div><div class="seat red">[20. مانا]</div></div>
+<div class="row"><div class="seat red">[21. سارا]</div><div class="seat red">[22. ماها]</div><div class="aisle"></div><div class="seat red">[23. لیزا]</div><div class="seat red">[24. لیدا]</div></div>
+<div class="row"><div class="seat red">[25. علی]</div><div class="seat red">[26. ماریا]</div><div class="aisle"></div><div class="seat large">درب میانی و دستشویی</div></div>
+<div class="row"><div class="seat red">[27. نسرین]</div><div class="seat red">[28. فریبا]</div><div class="aisle"></div><div class="seat large">درب میانی و دستشویی</div></div>
+<div class="row"><div class="seat red">[29. سام]</div><div class="seat red">[30. ندا]</div><div class="aisle"></div><div class="seat red">[31. منا]</div><div class="seat red">[32. الین]</div></div>
+<div class="row"><div class="seat red">[33. نوا]</div><div class="seat red">[34. فرناز]</div><div class="aisle"></div><div class="seat red">[35. میترا]</div><div class="seat red">[36. زهرا]</div></div>
+<div class="row"><div class="seat red">[37. محمد گ]</div><div class="seat red">[38. محمد ح]</div><div class="aisle"></div><div class="seat red">[39. ]</div><div class="seat red">[40. ا]</div></div>
+<div class="row"><div class="seat red">[41. مسی]</div><div class="seat red">[42. شیوا]</div><div class="aisle"></div><div class="seat red">[43. رزا]</div><div class="seat red">[44. النا]</div></div>
+<div class="row"><div class="seat red">[45. مبینا]</div><div class="seat empty">[46]</div><div class="aisle"></div><div class="seat red">[47. مژگان]</div><div class="seat red">[48. پریسا]</div></div>
+<div class="row"><div class="seat responsible">[49. سام]</div></div>
+</div>
+
+<!-- اتوبوس شماره 2 -->
+<div class="bus">
+<h2>اتوبوس ۲</h2>
+<!-- ردیف 1 تا 5 -->
+<div class="row"><div class="seat red">[1. ایمان]</div><div class="seat red">[2. ایمان]</div><div class="aisle"></div><div class="seat red">[3. زهرا]</div><div class="seat red">[4. رامین]</div></div>
+<div class="row"><div class="seat red">[5. فاطی]</div><div class="seat red">[6. معصومه]</div><div class="aisle"></div><div class="seat red">[7. حسین]</div><div class="seat red">[8. منیره]</div></div>
+<div class="row"><div class="seat red">[9. منیره]</div><div class="seat red">[10. فریبا]</div><div class="aisle"></div><div class="seat red">[11. سمیه]</div><div class="seat red">[12. مهدخت]</div></div>
+<div class="row"><div class="seat red">[13. همسر]</div><div class="seat red">[14. شمیم]</div><div class="aisle"></div><div class="seat red">[15. نسیم]</div><div class="seat red">[16. رخساره]</div></div>
+<div class="row"><div class="seat red">[17. شهناز]</div><div class="seat red">[18. سارا]</div><div class="aisle"></div><div class="seat red">[19. دخترها]</div><div class="seat red">[20. ماری]</div></div>
+<div class="row"><div class="seat red">[21. سارا]</div><div class="seat red">[22. سمیرا]</div><div class="aisle"></div><div class="seat red">[23. ژیلوانا]</div><div class="seat red">[24. ژوانا]</div></div>
+<div class="row"><div class="seat red">[25. نوشا]</div><div class="seat red">[26. ساشا]</div><div class="aisle"></div><div class="seat red">[27. رضا]</div><div class="seat red">[28. نازنین]</div></div>
+<div class="row"><div class="seat red">[29. سمیرا]</div><div class="seat empty">[30]</div><div class="aisle"></div><div class="seat large">درب میانی و دستشویی</div></div>
+<div class="row"><div class="seat empty">[31]</div><div class="seat empty">[32]</div><div class="aisle"></div><div class="seat large">درب میانی و دستشویی</div></div>
+<div class="row"><div class="seat empty">[33]</div><div class="seat empty">[34]</div><div class="aisle"></div><div class="seat empty">[35]</div><div class="seat empty">[36]</div></div>
+<div class="row"><div class="seat empty">[37]</div><div class="seat empty">[38]</div><div class="aisle"></div><div class="seat empty">[39]</div><div class="seat empty">[40]</div></div>
+<div class="row"><div class="seat empty">[41]</div><div class="seat empty">[42]</div><div class="aisle"></div><div class="seat empty">[43]</div><div class="seat empty">[44]</div></div>
+<div class="row"><div class="seat empty">[45]</div><div class="seat responsible">[46. شهاب]</div><div class="aisle"></div><div class="seat responsible">[47. مریم]</div><div class="seat responsible">[48. سعید]</div></div>
+<div class="row"><div class="seat empty">[49]</div></div>
+</div>
+
+<!-- اتوبوس شماره 3 -->
+<div class="bus">
+<h2>اتوبوس ۳</h2>
+<!-- ردیف 1 تا 5 -->
+<div class="row"><div class="seat red">[1. حبیب]</div><div class="seat red">[2. بهار]</div><div class="aisle"></div><div class="seat red">[3. حسین]</div><div class="seat red">[4. مژگان]</div></div>
+<div class="row"><div class="seat red">[5. هایده]</div><div class="seat red">[6. محبوبه]</div><div class="aisle"></div><div class="seat red">[7. فاطمه]</div><div class="seat red">[8. غزال]</div></div>
+<div class="row"><div class="seat red">[9. نرگس]</div><div class="seat red">[10. مستانه]</div><div class="aisle"></div><div class="seat red">[11. روشنک]</div><div class="seat red">[12. خشایار]</div></div>
+<div class="row"><div class="seat red">[13. مطهره]</div><div class="seat red">[14. ویدا]</div><div class="aisle"></div><div class="seat red">[15. لارا]</div><div class="seat red">[16. نادیا]</div></div>
+
+<div class="row"><div class="seat red">[17]</div><div class="seat red">[18]</div><div class="aisle"></div><div class="seat large">درب میانی و دستشویی</div></div>
+<div class="row"><div class="seat red">[19]</div><div class="seat red">[20]</div><div class="aisle"></div><div class="seat large">درب میانی و دستشویی</div></div>
+
+<div class="row"><div class="seat empty">[21]</div><div class="seat empty">[22]</div><div class="aisle"></div><div class="seat empty">[23]</div><div class="seat empty">[24]</div></div>
+<div class="row"><div class="seat empty">[25]</div><div class="seat empty">[26]</div><div class="aisle"></div><div class="seat empty">[27]</div><div class="seat empty">[28]</div></div>
+<div class="row"><div class="seat empty">[29]</div><div class="seat empty">[30]</div><div class="aisle"></div><div class="seat empty">[31]</div><div class="seat empty">[32]</div></div>
+<div class="row"><div class="seat empty">[33]</div><div class="seat empty">[34]</div><div class="aisle"></div><div class="seat empty">[35]</div><div class="seat empty">[36]</div></div>
+<div class="row"><div class="seat empty">[37]</div><div class="seat empty">[38]</div><div class="aisle"></div><div class="seat empty">[39]</div><div class="seat empty">[40]</div></div>
+<div class="row"><div class="seat empty">[41]</div><div class="seat empty">[42]</div><div class="aisle"></div><div class="seat empty">[43]</div><div class="seat empty">[44]</div></div>
+<div class="row"><div class="seat empty">[45]</div><div class="seat empty">[46]</div><div class="aisle"></div><div class="seat red">[47. ستاره]</div><div class="seat responsible">[48. سروش]</div></div>
+<div class="row"><div class="seat empty">[49]</div></div>
+</div>
+
+</body>
+</html>
