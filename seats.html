@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Bus Seat Map</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f5f5f5;
+        padding: 20px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .row {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 12px;
+        gap: 10px;
+    }
+
+    .seat {
+        width: 45px;
+        height: 45px;
+        border-radius: 6px;
+        background: yellow;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        border: 1px solid #aaa;
+        position: relative;
+    }
+
+    .taken {
+        background: #ff5555;
+        color: white;
+    }
+
+    .label {
+        position: absolute;
+        top: 48px;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>Bus Seating Layout</h2>
+<div id="bus"></div>
+
+<script>
+/* -------------------------------------
+   ظرفیت اتوبوس‌ها
+------------------------------------- */
+const busCapacities = {
+    1: 60,
+    2: 55,
+    3: 53,
+    4: 51
+};
+
+// اتوبوسی که می‌خوای نمایش بده
+const selectedBus = 1;
+
+/* -------------------------------------
+    CSV Parse (ساده و سریع)
+------------------------------------- */
+function parseCSV(text) {
+    const lines = text.trim().split("\n");
+    const headers = lines[0].split(",");
+
+    return lines.slice(1).map(line => {
+        const values = line.split(",");
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = values[i]);
+        return obj;
+    });
+}
+
+/* -------------------------------------
+   خواندن CSV و ساخت جدول رزرو
+------------------------------------- */
+async function loadReservations() {
+    const response = await fetch("seats.csv");
+    const csvText = await response.text();
+    const rows = parseCSV(csvText);
+
+    // تبدیل به یک ساختار مناسب:
+    const reserved = {};
+    rows.forEach(r => {
+        if (parseInt(r.bus) === selectedBus) {
+            reserved[parseInt(r.seat)] = r.name;
+        }
+    });
+
+    return reserved;
+}
+
+/* -------------------------------------
+   تولید آرایه صندلی‌ها
+------------------------------------- */
+function generateSeats(reservedSeats) {
+    return Array.from({ length: busCapacities[selectedBus] }, (_, i) => {
+        const seatNum = i + 1;
+        return {
+            seat: seatNum,
+            name: reservedSeats[seatNum] || null,
+            taken: reservedSeats[seatNum] ? true : false
+        };
+    });
+}
+
+/* -------------------------------------
+   ساخت DOM یک صندلی
+------------------------------------- */
+function makeSeat(s) {
+    const div = document.createElement("div");
+    div.className = "seat" + (s.taken ? "taken" : "");
+    div.textContent = s.seat;
+
+    if (s.taken) {
+        const label = document.createElement("div");
+        label.className = "label";
+        label.textContent = s.name;
+        div.appendChild(label);
+    }
+
+    return div;
+}
+
+/* -------------------------------------
+   چیدمان کامل اتوبوس + درب وسط + شیفت
+------------------------------------- */
+function renderBus(reservedSeats) {
+    const seats = generateSeats(reservedSeats);
+    const busDiv = document.getElementById("bus");
+    busDiv.innerHTML = "";
+
+    let seatIndex = 1;
+    const doorRowStart = 27;
+    let shifted = false;
+
+    // ردیف اول (۵ صندلی)
+    const firstRow = document.createElement("div");
+    firstRow.className = "row";
+
+    for (let i = 0; i < 5; i++) {
+        firstRow.appendChild(makeSeat(seats[seatIndex - 1]));
+        seatIndex++;
+    }
+
+    busDiv.appendChild(firstRow);
+
+    // ادامه ردیف‌ها (۲+۲) با درب وسط
+    while (seatIndex <= seats.length) {
+        const row = document.createElement("div");
+        row.className = "row";
+
+        if (seatIndex >= doorRowStart && !shifted) {
+            seatIndex += 2;
+            shifted = true;
+        }
+
+        // ۲ صندلی چپ
+        for (let i = 0; i < 2; i++) {
+            if (seatIndex <= seats.length)
+                row.appendChild(makeSeat(seats[seatIndex - 1]));
+            seatIndex++;
+        }
+
+        // فاصله وسط (دالان)
+        const gap = document.createElement("div");
+        gap.style.width = "40px";
+        row.appendChild(gap);
+
+        // ۲ صندلی راست
+        for (let i = 0; i < 2; i++) {
+            if (seatIndex <= seats.length)
+                row.appendChild(makeSeat(seats[seatIndex - 1]));
+            seatIndex++;
+        }
+
+        busDiv.appendChild(row);
+    }
+}
+
+/* -------------------------------------
+   اجرای اصلی
+------------------------------------- */
+async function main() {
+    const reserved = await loadReservations();
+    renderBus(reserved);
+}
+
+main();
+
+</script>
+
+</body>
+</html>
