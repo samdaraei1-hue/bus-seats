@@ -125,43 +125,59 @@ function renderBus(reserved) {
     busDiv.innerHTML = ""; // پاک کردن قبلی
     document.getElementById("busTitle").textContent = `Bus Seat Map - Bus ${selectedBus}`;
 
-    let s = 1;
+    let seats = [];
+    for (let i = 1; i <= total; i++) {
+        seats.push({num: i, name: reserved[i] || null});
+    }
+
+    // ایجاد gap دوخانه‌ای قبل از 26 و 27
+    const gapIndex = 25; // index در آرایه صفر مبنا (صندلی 26)
+    seats.splice(gapIndex, 0, {num: null}, {num: null}); // دو خانه خالی
+
+    let s = 0;
 
     // ردیف اول (5 صندلی)
     const row1 = document.createElement("div");
     row1.className = "row";
-    for (let i = 0; i < 5 && s <= total; i++) {
-        row1.appendChild(makeSeat(s, reserved[s]));
+    for (let i = 0; i < 5 && s < seats.length; i++) {
+        if (seats[s].num !== null) row1.appendChild(makeSeat(seats[s].num, seats[s].name));
+        else row1.appendChild(document.createElement("div")); // جای خالی
         s++;
     }
     busDiv.appendChild(row1);
 
-    // بقیه ردیف‌ها (2 + gap + 2)
-    while (s <= total) {
+    // ردیف‌های بعدی (2 + gap + 2)
+    while (s < seats.length) {
         const row = document.createElement("div");
         row.className = "row";
 
-        // قبل از رسیدن به صندلی 26، معمولی رسم کن
-        for (let i = 0; i < 2 && s <= total; i++) {
-            if (s === 26 || s === 27) break; // شکستن حلقه برای gap
-            row.appendChild(makeSeat(s, reserved[s]));
-            s++;
+        // 2 صندلی سمت چپ
+        for (let i = 0; i < 2 && s < seats.length; i++, s++) {
+            if (seats[s].num !== null) row.appendChild(makeSeat(seats[s].num, seats[s].name));
+            else {
+                const empty = document.createElement("div");
+                empty.className = "seat";
+                empty.style.background = "transparent";
+                empty.style.border = "none";
+                row.appendChild(empty);
+            }
         }
 
-        // اگر s == 26 یا 27، یک gap دوخانه‌ای ایجاد کن
-        if (s === 26) {
-            const gap1 = document.createElement("div");
-            gap1.className = "gap";
-            row.appendChild(gap1);
-            const gap2 = document.createElement("div");
-            gap2.className = "gap";
-            row.appendChild(gap2);
-        }
+        // دالان
+        const gapDiv = document.createElement("div");
+        gapDiv.className = "gap";
+        row.appendChild(gapDiv);
 
-        // صندلی سمت راست
-        for (let i = 0; i < 2 && s <= total; i++) {
-            row.appendChild(makeSeat(s, reserved[s]));
-            s++;
+        // 2 صندلی سمت راست
+        for (let i = 0; i < 2 && s < seats.length; i++, s++) {
+            if (seats[s].num !== null) row.appendChild(makeSeat(seats[s].num, seats[s].name));
+            else {
+                const empty = document.createElement("div");
+                empty.className = "seat";
+                empty.style.background = "transparent";
+                empty.style.border = "none";
+                row.appendChild(empty);
+            }
         }
 
         busDiv.appendChild(row);
