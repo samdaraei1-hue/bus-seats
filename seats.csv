@@ -1,5 +1,5 @@
 bus,seat,name
-1,1,سام
+1,3,سام
 2,29,Neda
 2,28,Lili
 1,59,Mahdis🐣🤍
@@ -18,25 +18,24 @@ bus,seat,name
 1,15,Nawal Banaee
 1,16,Nawal Banaee
 1,17,Nawal Banaee
-1,18,Nawal Banaee
+1,8,Nawal Banaee
 1,19,Mojgan
-1,20,Nazanin
+1,18,Nazanin
 1,54,Lara
 1,53,Sobhan
-1,50,Hossein Sajadi
-1,51,Arezoo Heydari
+1,20,Hossein Sajadi
+1,21,Arezoo Heydari
 1,26,Donya 
 1,27,Zohre
 1,28,Atrin
 1,29,Westa
-1,6,Gita
-1,7,Fereshteh
-1,8,Farnaz
-1,5,Mahsa
+1,4,Gita
+1,5,Fereshteh
+1,6,Farnaz
+1,7,Mahsa
 1,4,Nina
-1,3,Adrian
 1,36,Mahru
-1,2,Shivana
+1,1,Shivana
 1,30,Mahdiyar
 1,31,Ramin
 1,33,Bahar
@@ -54,7 +53,6 @@ bus,seat,name
 1,45,Kiana Lolachi
 1,46,Kasra Lolachi
 1,47,Javid Lolachi
-1,21,Sam Daraei
 1,22,Sam Daraei
 1,55,Sam Daraei
 1,56,Aban
@@ -153,3 +151,6 @@ bus,seat,name
 2,41,زهرا
 2,2,Mehdi Ebra
 1,32,سورنا
+2,31,زینب بابایی
+4,38,Marjan
+4,39,فرشته صفایی 
