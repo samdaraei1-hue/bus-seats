@@ -13,12 +13,15 @@
 
     h2 {
         text-align: center;
+        background-color:white; 
+        padding:10px; 
+        border-radius:6px;
     }
 
     .row {
         display: flex;
         justify-content: center;
-        margin-bottom: 20px;
+        margin-bottom: 25px; /* فاصله ردیف‌ها بیشتر */
         gap: 10px;
     }
 
@@ -40,19 +43,18 @@
         color: white;
     }
 
-.label {
-    font-size: 10px;
-    position: absolute;
-    top: 50px;
-    left: 50%;
-    transform: translateX(-50%);
-    white-space: nowrap;
-    background-color: rgba(0,0,0,0.7); /* پس‌زمینه مشکی شفاف */
-    color: white; /* رنگ متن */
-    padding: 2px 4px;
-    border-radius: 3px;
-}
-
+    .label {
+        font-size: 10px;
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        background-color: rgba(0,0,0,0.7); /* پس‌زمینه قابل خواندن */
+        color: white; 
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
 
     .gap {
         width: 40px;
@@ -68,16 +70,22 @@
         margin: 0 5px;
         font-size: 16px;
     }
+
+    #bus {
+        background-color:white; 
+        padding:15px; 
+        border-radius:6px;
+    }
 </style>
 </head>
 <body>
 
-<h2 id="busTitle" style="background-color:white; padding:10px; border-radius:6px; text-align:center;">Bus Seat Map - Bus 1</h2>
-<div id="bus" style="background-color:white; padding:15px; border-radius:6px;"></div
+<h2 id="busTitle">Bus Seat Map - Bus 1</h2>
+<div id="bus"></div>
 
 <div class="controls">
-    <button id="prevBus">Previous Bus</button>
-    <button id="nextBus">Next Bus</button>
+    <button id="prevBus">اتوبوس قبلی (4)</button>
+    <button id="nextBus">اتوبوس بعدی (2)</button>
 </div>
 
 <script>
@@ -135,9 +143,9 @@ function renderBus(reserved) {
         seats.push({num: i, name: reserved[i] || null});
     }
 
-    // جای 26 و 27 را با gap دوخانه‌ای خالی می‌کنیم و صندلی‌ها بعد از آن شیفت پیدا می‌کنند
+    // جای 26 و 27 را با gap دوخانه‌ای خالی می‌کنیم
     const gapIndex = 25; // صندلی 26
-    seats.splice(gapIndex, 0, {num: null}, {num: null}); // دو خانه خالی
+    seats.splice(gapIndex, 0, {num: null}, {num: null});
 
     let s = 0;
 
@@ -161,7 +169,6 @@ function renderBus(reserved) {
         const row = document.createElement("div");
         row.className = "row";
 
-        // سمت چپ 2 صندلی
         for (let i = 0; i < 2 && s < seats.length; i++, s++) {
             if (seats[s].num !== null) row.appendChild(makeSeat(seats[s].num, seats[s].name));
             else {
@@ -173,12 +180,10 @@ function renderBus(reserved) {
             }
         }
 
-        // دالان
         const gapDiv = document.createElement("div");
         gapDiv.className = "gap";
         row.appendChild(gapDiv);
 
-        // سمت راست 2 صندلی
         for (let i = 0; i < 2 && s < seats.length; i++, s++) {
             if (seats[s].num !== null) row.appendChild(makeSeat(seats[s].num, seats[s].name));
             else {
@@ -194,30 +199,37 @@ function renderBus(reserved) {
     }
 }
 
-async function main() {
-    const csv = await loadCSV();
-    window.csvData = csv;
-    renderBus(buildSeatList(csv));
+function updateBusButtons() {
+    const totalBuses = Object.keys(busCapacities).length;
+    let next = selectedBus + 1 > totalBuses ? 1 : selectedBus + 1;
+    let prev = selectedBus - 1 < 1 ? totalBuses : selectedBus - 1;
+    document.getElementById("nextBus").textContent = `اتوبوس بعدی (${next})`;
+    document.getElementById("prevBus").textContent = `اتوبوس قبلی (${prev})`;
 }
 
 document.getElementById("nextBus").addEventListener("click", () => {
     selectedBus++;
     if (selectedBus > Object.keys(busCapacities).length) selectedBus = 1;
     renderBus(buildSeatList(window.csvData));
+    updateBusButtons();
 });
 
 document.getElementById("prevBus").addEventListener("click", () => {
     selectedBus--;
     if (selectedBus < 1) selectedBus = Object.keys(busCapacities).length;
     renderBus(buildSeatList(window.csvData));
+    updateBusButtons();
 });
+
+async function main() {
+    const csv = await loadCSV();
+    window.csvData = csv;
+    renderBus(buildSeatList(csv));
+    updateBusButtons();
+}
 
 main();
 </script>
 
 </body>
 </html>
-
-
-
-
