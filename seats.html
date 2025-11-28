@@ -127,33 +127,40 @@ function renderBus(reserved) {
 
     let s = 1;
 
-    // ردیف اول (پنج‌تایی)
+    // ردیف اول (5 صندلی)
     const row1 = document.createElement("div");
     row1.className = "row";
     for (let i = 0; i < 5 && s <= total; i++) {
-        if (s !== 26 && s !== 27) row1.appendChild(makeSeat(s, reserved[s]));
+        row1.appendChild(makeSeat(s, reserved[s]));
         s++;
     }
     busDiv.appendChild(row1);
 
     // بقیه ردیف‌ها (2 + gap + 2)
     while (s <= total) {
-        if (s === 26 || s === 27) { s++; continue; } // رد کردن 26 و 27
-
         const row = document.createElement("div");
         row.className = "row";
 
+        // قبل از رسیدن به صندلی 26، معمولی رسم کن
         for (let i = 0; i < 2 && s <= total; i++) {
-            if (s !== 26 && s !== 27) row.appendChild(makeSeat(s, reserved[s]));
+            if (s === 26 || s === 27) break; // شکستن حلقه برای gap
+            row.appendChild(makeSeat(s, reserved[s]));
             s++;
         }
 
-        const gap = document.createElement("div");
-        gap.className = "gap";
-        row.appendChild(gap);
+        // اگر s == 26 یا 27، یک gap دوخانه‌ای ایجاد کن
+        if (s === 26) {
+            const gap1 = document.createElement("div");
+            gap1.className = "gap";
+            row.appendChild(gap1);
+            const gap2 = document.createElement("div");
+            gap2.className = "gap";
+            row.appendChild(gap2);
+        }
 
+        // صندلی سمت راست
         for (let i = 0; i < 2 && s <= total; i++) {
-            if (s !== 26 && s !== 27) row.appendChild(makeSeat(s, reserved[s]));
+            row.appendChild(makeSeat(s, reserved[s]));
             s++;
         }
 
@@ -163,7 +170,7 @@ function renderBus(reserved) {
 
 async function main() {
     const csv = await loadCSV();
-    window.csvData = csv; // نگه داشتن CSV برای استفاده دوباره
+    window.csvData = csv;
     renderBus(buildSeatList(csv));
 }
 
