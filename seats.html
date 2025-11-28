@@ -52,34 +52,36 @@
     .gap {
         width: 40px;
     }
+
+    .controls {
+        text-align: center;
+        margin: 20px;
+    }
+
+    button {
+        padding: 8px 16px;
+        margin: 0 5px;
+        font-size: 16px;
+    }
 </style>
 </head>
 <body>
 
-<h2>Bus Seat Map</h2>
+<h2 id="busTitle">Bus Seat Map - Bus 1</h2>
 <div id="bus"></div>
 
+<div class="controls">
+    <button id="prevBus">Previous Bus</button>
+    <button id="nextBus">Next Bus</button>
+</div>
+
 <script>
-/* -------------------------------
-   ظرفیت اتوبوس‌ها
--------------------------------- */
-const busCapacities = {
-    1: 60,
-    2: 55,
-    3: 53,
-    4: 51
-};
+const busCapacities = { 1: 60, 2: 55, 3: 53, 4: 51 };
+let selectedBus = 1;
 
-// اتوبوسی که می‌خواهی نمایش داده شود
-const selectedBus = 1;
-
-/* -------------------------------
-   CSV Parser
--------------------------------- */
 function parseCSV(text) {
     const lines = text.trim().split("\n");
     const headers = lines[0].split(",");
-
     return lines.slice(1).map(line => {
         const values = line.split(",");
         const obj = {};
@@ -88,38 +90,26 @@ function parseCSV(text) {
     });
 }
 
-/* -------------------------------
-   خواندن فایل seats.csv
--------------------------------- */
 async function loadCSV() {
     const res = await fetch("seats.csv");
     const text = await res.text();
     return parseCSV(text);
 }
 
-/* -------------------------------
-   تولید صندلی‌ها از CSV
--------------------------------- */
 function buildSeatList(rows) {
     let reserved = {};
-
     rows.forEach(r => {
         if (parseInt(r.bus) === selectedBus) {
             reserved[parseInt(r.seat)] = r.name;
         }
     });
-
     return reserved;
 }
 
-/* -------------------------------
-   رسم صندلی
--------------------------------- */
 function makeSeat(num, name) {
     const div = document.createElement("div");
     div.className = "seat" + (name ? " taken" : "");
     div.textContent = num;
-
     if (name) {
         const lbl = document.createElement("div");
         lbl.className = "label";
@@ -129,47 +119,41 @@ function makeSeat(num, name) {
     return div;
 }
 
-/* -------------------------------
-   رسم کل اتوبوس
-   قوانین:
-   - ردیف 1 → پنج‌تایی
-   - بقیه → 2 + فاصله + 2
-   - آخر → هرچقدر باقی ماند، در ردیف مستقل
--------------------------------- */
 function renderBus(reserved) {
     const total = busCapacities[selectedBus];
     const busDiv = document.getElementById("bus");
+    busDiv.innerHTML = ""; // پاک کردن قبلی
+    document.getElementById("busTitle").textContent = `Bus Seat Map - Bus ${selectedBus}`;
 
     let s = 1;
 
-    // ردیف اول
+    // ردیف اول (پنج‌تایی)
     const row1 = document.createElement("div");
     row1.className = "row";
     for (let i = 0; i < 5 && s <= total; i++) {
-        row1.appendChild(makeSeat(s, reserved[s]));
+        if (s !== 26 && s !== 27) row1.appendChild(makeSeat(s, reserved[s]));
         s++;
     }
     busDiv.appendChild(row1);
 
-    // ردیف‌های بعد
+    // بقیه ردیف‌ها (2 + gap + 2)
     while (s <= total) {
+        if (s === 26 || s === 27) { s++; continue; } // رد کردن 26 و 27
+
         const row = document.createElement("div");
         row.className = "row";
 
-        // صندلی سمت چپ (2 صندلی)
         for (let i = 0; i < 2 && s <= total; i++) {
-            row.appendChild(makeSeat(s, reserved[s]));
+            if (s !== 26 && s !== 27) row.appendChild(makeSeat(s, reserved[s]));
             s++;
         }
 
-        // دالان
         const gap = document.createElement("div");
         gap.className = "gap";
         row.appendChild(gap);
 
-        // صندلی سمت راست (2 صندلی)
         for (let i = 0; i < 2 && s <= total; i++) {
-            row.appendChild(makeSeat(s, reserved[s]));
+            if (s !== 26 && s !== 27) row.appendChild(makeSeat(s, reserved[s]));
             s++;
         }
 
@@ -177,14 +161,23 @@ function renderBus(reserved) {
     }
 }
 
-/* -------------------------------
-   اجرای اصلی
--------------------------------- */
 async function main() {
     const csv = await loadCSV();
-    const reserved = buildSeatList(csv);
-    renderBus(reserved);
+    window.csvData = csv; // نگه داشتن CSV برای استفاده دوباره
+    renderBus(buildSeatList(csv));
 }
+
+document.getElementById("nextBus").addEventListener("click", () => {
+    selectedBus++;
+    if (selectedBus > Object.keys(busCapacities).length) selectedBus = 1;
+    renderBus(buildSeatList(window.csvData));
+});
+
+document.getElementById("prevBus").addEventListener("click", () => {
+    selectedBus--;
+    if (selectedBus < 1) selectedBus = Object.keys(busCapacities).length;
+    renderBus(buildSeatList(window.csvData));
+});
 
 main();
 </script>
