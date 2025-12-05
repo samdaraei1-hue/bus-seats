@@ -96,7 +96,7 @@
 </div>
 
 <script>
-const busCapacities = { 1: 60, 2: 55, 3: 53, 4: 51 };
+const busCapacities = { 1: 61, 2: 55, 3: 53, 4: 51 };
 let selectedBus = 1;
 
 function parseCSV(text) {
@@ -151,7 +151,7 @@ function renderBus(reserved) {
     }
 
     // جای 26 و 27 را با gap دوخانه‌ای خالی می‌کنیم
-    const gapIndex = 25; // صندلی 26
+    const gapIndex = 29; // صندلی 26
     seats.splice(gapIndex, 0, {num: null}, {num: null});
 
     let s = 0;
@@ -240,6 +240,7 @@ main();
 
 </body>
 </html>
+
 
 
 
