@@ -155,6 +155,8 @@ function makeSeat(num, name) {
     return div;
 }
 
+
+
 function renderBus(reserved) {
     const total = busCapacities[selectedBus];
     const busDiv = document.getElementById("bus");
@@ -166,18 +168,38 @@ function renderBus(reserved) {
         seats.push({num: i, name: reserved[i] || null});
     }
 
-    // جای 26 و 27 را با gap دوخانه‌ای خالی می‌کنیم
-    const gapIndex = 28; // صندلی 26
+    // گپ مخصوص بعد از صندلی ۲۸ (درب وسط)
+    const gapIndex = 28;
     seats.splice(gapIndex, 0, {num: null}, {num: null});
 
     let s = 0;
+    let rowCounter = 1;
 
-    // ردیف اول (5 صندلی)
+    // ✔ یک تابع کوچک برای ساخت ردیف + شماره کنار آن
+    function wrapRow(rowElement) {
+        const container = document.createElement("div");
+        container.className = "row-container";
+
+        const label = document.createElement("div");
+        label.className = "row-number";
+        label.textContent = rowCounter++;
+
+        container.appendChild(label);
+        container.appendChild(rowElement);
+
+        busDiv.appendChild(container);
+    }
+
+    // ----------------------------------------
+    // ردیف اول (۵ صندلی)
+    // ----------------------------------------
     const row1 = document.createElement("div");
     row1.className = "row";
-    for (let i = 0; i < 4 && s < seats.length; i++, s++) {
-        if (seats[s].num !== null) row1.appendChild(makeSeat(seats[s].num, seats[s].name));
-        else {
+
+    for (let i = 0; i < 5 && s < seats.length; i++, s++) {
+        if (seats[s].num !== null) {
+            row1.appendChild(makeSeat(seats[s].num, seats[s].name));
+        } else {
             const empty = document.createElement("div");
             empty.className = "seat";
             empty.style.background = "transparent";
@@ -185,16 +207,21 @@ function renderBus(reserved) {
             row1.appendChild(empty);
         }
     }
-    busDiv.appendChild(row1);
 
-    // ردیف‌های بعدی (2 + gap + 2)
+    wrapRow(row1);
+
+    // ----------------------------------------
+    // ردیف‌های بعدی (۲ چپ + gap + ۲ راست)
+    // ----------------------------------------
     while (s < seats.length) {
         const row = document.createElement("div");
         row.className = "row";
 
+        // ۲ صندلی سمت چپ
         for (let i = 0; i < 2 && s < seats.length; i++, s++) {
-            if (seats[s].num !== null) row.appendChild(makeSeat(seats[s].num, seats[s].name));
-            else {
+            if (seats[s].num !== null) {
+                row.appendChild(makeSeat(seats[s].num, seats[s].name));
+            } else {
                 const empty = document.createElement("div");
                 empty.className = "seat";
                 empty.style.background = "transparent";
@@ -203,13 +230,16 @@ function renderBus(reserved) {
             }
         }
 
+        // راهرو
         const gapDiv = document.createElement("div");
         gapDiv.className = "gap";
         row.appendChild(gapDiv);
 
+        // ۲ صندلی سمت راست
         for (let i = 0; i < 2 && s < seats.length; i++, s++) {
-            if (seats[s].num !== null) row.appendChild(makeSeat(seats[s].num, seats[s].name));
-            else {
+            if (seats[s].num !== null) {
+                row.appendChild(makeSeat(seats[s].num, seats[s].name));
+            } else {
                 const empty = document.createElement("div");
                 empty.className = "seat";
                 empty.style.background = "transparent";
@@ -218,23 +248,10 @@ function renderBus(reserved) {
             }
         }
 
-        busDiv.appendChild(row);
+        wrapRow(row);
     }
 }
-function renderBus(reserved) {
-    const total = busCapacities[selectedBus];
-    const busDiv = document.getElementById("bus");
-    busDiv.innerHTML = "";
-    document.getElementById("busTitle").textContent =
-        `Bus Seat Map - Bus ${selectedBus}`;
 
-    let seats = [];
-    for (let i = 1; i <= total; i++) {
-        seats.push({num: i, name: reserved[i] || null});
-    }
-
-    let index = 0;
-    let rowNumber = 1;
 
     
 function updateBusButtons() {
@@ -271,6 +288,7 @@ main();
 
 </body>
 </html>
+
 
 
 
