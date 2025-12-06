@@ -236,53 +236,7 @@ function renderBus(reserved) {
     let index = 0;
     let rowNumber = 1;
 
-    function createRowElement() {
-        const container = document.createElement("div");
-        container.className = "row-container";
-
-        const numberCircle = document.createElement("div");
-        numberCircle.className = "row-number";
-        numberCircle.textContent = rowNumber++;
-
-        const row = document.createElement("div");
-        row.className = "row";
-
-        container.appendChild(numberCircle);
-        container.appendChild(row);
-        busDiv.appendChild(container);
-
-        return row;
-    }
-
-    // ردیف اول → ۵ صندلی
-    let row1 = createRowElement();
-    for (let i = 0; i < 5 && index < seats.length; i++) {
-        row1.appendChild(makeSeat(seats[index].num, seats[index].name));
-        index++;
-    }
-
-    // ردیف‌های بعدی → 2 + gap + 2
-    while (index < seats.length) {
-        let row = createRowElement();
-
-        // ۲ چپ
-        for (let i = 0; i < 2 && index < seats.length; i++) {
-            row.appendChild(makeSeat(seats[index].num, seats[index].name));
-            index++;
-        }
-
-        // دالان
-        const gap = document.createElement("div");
-        gap.className = "gap";
-        row.appendChild(gap);
-
-        // ۲ راست
-        for (let i = 0; i < 2 && index < seats.length; i++) {
-            row.appendChild(makeSeat(seats[index].num, seats[index].name));
-            index++;
-        }
-    }
-    }
+    
 function updateBusButtons() {
     const totalBuses = Object.keys(busCapacities).length;
     let next = selectedBus + 1 > totalBuses ? 1 : selectedBus + 1;
@@ -317,6 +271,7 @@ main();
 
 </body>
 </html>
+
 
 
 
