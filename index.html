@@ -191,12 +191,12 @@ function renderBus(reserved) {
     }
 
     // ----------------------------------------
-    // ردیف اول (۵ صندلی)
+    // ردیف اول 4۵ صندلی)
     // ----------------------------------------
     const row1 = document.createElement("div");
     row1.className = "row";
 
-    for (let i = 0; i < 5 && s < seats.length; i++, s++) {
+    for (let i = 0; i < 4 && s < seats.length; i++, s++) {
         if (seats[s].num !== null) {
             row1.appendChild(makeSeat(seats[s].num, seats[s].name));
         } else {
@@ -288,6 +288,7 @@ main();
 
 </body>
 </html>
+
 
 
 
